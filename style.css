@@ -36,7 +36,8 @@ button {
   min-height: 100vh;
   margin: 0 auto;
   background: var(--bg);
-  padding-bottom: 96px;
+  /* 홈 화면 앱으로 열었을 때 노치/홈 바 영역 피하기 */
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) calc(96px + env(safe-area-inset-bottom)) env(safe-area-inset-left);
 }
 
 /* 0. 상단 설정 */
@@ -492,7 +493,7 @@ button {
 /* 추가 버튼 */
 .fab {
   position: fixed;
-  bottom: 24px;
+  bottom: calc(24px + env(safe-area-inset-bottom));
   left: 50%;
   transform: translateX(calc(min(220px, 50vw) - 76px));
   width: 56px;
@@ -525,7 +526,7 @@ button {
   max-width: 440px;
   background: var(--card);
   border-radius: 20px 20px 0 0;
-  padding: 20px 16px 24px;
+  padding: 20px 16px calc(24px + env(safe-area-inset-bottom));
   display: flex;
   flex-direction: column;
   gap: 14px;
