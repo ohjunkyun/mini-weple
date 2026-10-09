@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>가계부</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+
+    <!-- 1. 날짜(월) 설정 -->
+    <header class="month-bar">
+      <button class="nav-btn" id="prevMonth" aria-label="이전 달">&#8249;</button>
+      <h1 class="month-title" id="monthTitle">2026년 10월</h1>
+      <button class="nav-btn" id="nextMonth" aria-label="다음 달">&#8250;</button>
+    </header>
+
+    <!-- 2. 수입 / 지출 / 수입-지출 -->
+    <section class="summary">
+      <div class="summary-item">
+        <span class="summary-label">수입</span>
+        <span class="summary-value income" id="sumIncome">0</span>
+      </div>
+      <div class="summary-item">
+        <span class="summary-label">지출</span>
+        <span class="summary-value expense" id="sumExpense">0</span>
+      </div>
+      <div class="summary-item">
+        <span class="summary-label">합계</span>
+        <span class="summary-value" id="sumTotal">0</span>
+      </div>
+    </section>
+
+    <!-- 3. 달력 -->
+    <section class="calendar">
+      <div class="weekdays">
+        <span class="sun">일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span class="sat">토</span>
+      </div>
+      <div class="days" id="calendarDays"></div>
+    </section>
+
+    <!-- 4. 선택한 날의 내역 -->
+    <section class="detail">
+      <div class="detail-header">
+        <h2 class="detail-date" id="detailDate">10월 9일 (금)</h2>
+        <div class="detail-sum">
+          <span class="income" id="dayIncome">0</span>
+          <span class="expense" id="dayExpense">0</span>
+        </div>
+      </div>
+      <ul class="entry-list" id="entryList"></ul>
+    </section>
+
+    <button class="fab" aria-label="내역 추가">+</button>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
