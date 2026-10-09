@@ -1,6 +1,7 @@
 # 가계부(mini weple) 앱 파일만 저장소에 올리고, 나머지(데이터, 스크립트, 게임 등)는 모두 제외
 /*
 !/.gitignore
+!/README.md
 !/index.html
 !/style.css
 !/app.js
