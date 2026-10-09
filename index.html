@@ -53,7 +53,59 @@
       <ul class="entry-list" id="entryList"></ul>
     </section>
 
-    <button class="fab" aria-label="내역 추가">+</button>
+    <button class="fab" id="addBtn" aria-label="내역 추가">+</button>
+  </div>
+
+  <!-- 내역 입력 창 -->
+  <div class="modal-backdrop" id="modal" hidden>
+    <form class="modal" id="entryForm" autocomplete="off">
+      <div class="modal-header">
+        <h2>내역 추가</h2>
+        <button type="button" class="close-btn" id="closeBtn" aria-label="닫기">&times;</button>
+      </div>
+
+      <div class="type-toggle">
+        <button type="button" class="type-btn active expense" data-type="expense">지출</button>
+        <button type="button" class="type-btn income" data-type="income">수입</button>
+      </div>
+
+      <label class="field">
+        <span>날짜</span>
+        <input type="date" id="fDate" required>
+      </label>
+
+      <label class="field">
+        <span>금액</span>
+        <input type="text" id="fAmount" inputmode="numeric" placeholder="0" required>
+      </label>
+
+      <label class="field">
+        <span>분류</span>
+        <select id="fCategory"></select>
+      </label>
+
+      <label class="check-row" id="excludeRow" hidden>
+        <input type="checkbox" id="fExclude">
+        <span class="check-box" aria-hidden="true"></span>
+        <span>저축을 지출에 포함하지 않기</span>
+      </label>
+
+      <label class="field">
+        <span>결제수단</span>
+        <select id="fMethod">
+          <option>카드</option>
+          <option>현금</option>
+          <option>계좌</option>
+        </select>
+      </label>
+
+      <label class="field">
+        <span>내용</span>
+        <input type="text" id="fTitle" placeholder="예: 점심 김치찌개" maxlength="30">
+      </label>
+
+      <button type="submit" class="save-btn" id="saveBtn">저장</button>
+    </form>
   </div>
 
   <script src="app.js"></script>
