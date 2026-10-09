@@ -10,6 +10,17 @@
 <body>
   <div class="app">
 
+    <!-- 0. 상단 설정 -->
+    <div class="top-bar">
+      <span class="app-name">가계부</span>
+      <button class="icon-btn" id="settingsBtn" aria-label="설정">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+      </button>
+    </div>
+
     <!-- 1. 날짜(월) 설정 -->
     <header class="month-bar">
       <button class="nav-btn" id="prevMonth" aria-label="이전 달">&#8249;</button>
@@ -31,6 +42,31 @@
         <span class="summary-label">합계</span>
         <span class="summary-value" id="sumTotal">0</span>
       </div>
+    </section>
+
+    <!-- 2-1. 충동구매 속도 경고 -->
+    <section class="impulse" id="impulseCard" hidden>
+      <div class="impulse-head">
+        <span class="impulse-title" id="impulseTitle">💸 충동구매 한도</span>
+        <span class="impulse-amount" id="impulseAmount">0 / 0</span>
+      </div>
+      <div class="impulse-bar">
+        <div class="impulse-fill" id="impulseFill"></div>
+        <div class="impulse-marker" id="impulseMarker" title="오늘까지 지나간 날짜"></div>
+      </div>
+      <p class="impulse-msg" id="impulseMsg"></p>
+    </section>
+
+    <!-- 2-2. 저축 목표 -->
+    <section class="goal" id="goalCard" hidden>
+      <div class="goal-head">
+        <span class="goal-title">🐷 저축 목표</span>
+        <span class="goal-pct" id="goalPct">0%</span>
+      </div>
+      <div class="goal-bar">
+        <div class="goal-fill" id="goalFill"></div>
+      </div>
+      <p class="goal-msg" id="goalMsg"></p>
     </section>
 
     <!-- 3. 달력 -->
@@ -60,7 +96,7 @@
   <div class="modal-backdrop" id="modal" hidden>
     <form class="modal" id="entryForm" autocomplete="off">
       <div class="modal-header">
-        <h2>내역 추가</h2>
+        <h2 id="modalTitle">내역 추가</h2>
         <button type="button" class="close-btn" id="closeBtn" aria-label="닫기">&times;</button>
       </div>
 
@@ -90,6 +126,13 @@
         <span>저축을 지출에 포함하지 않기</span>
       </label>
 
+      <label class="check-row" id="impulseRow">
+        <input type="checkbox" id="fImpulse">
+        <span class="check-box" aria-hidden="true"></span>
+        <span>충동구매였어요 💸</span>
+      </label>
+
+
       <label class="field">
         <span>결제수단</span>
         <select id="fMethod">
@@ -107,6 +150,75 @@
       <button type="submit" class="save-btn" id="saveBtn">저장</button>
     </form>
   </div>
+
+  <!-- 설정 창 -->
+  <div class="modal-backdrop" id="settingsModal" hidden>
+    <div class="modal">
+      <div class="modal-header">
+        <h2>설정</h2>
+        <button type="button" class="close-btn" id="settingsClose" aria-label="닫기">&times;</button>
+      </div>
+
+      <div class="setting-row">
+        <div class="setting-text">
+          <div class="setting-title">남은 돈 이월</div>
+          <div class="setting-desc">수입이 지출보다 많으면 남은 돈을 다음 달 1일에 넘깁니다</div>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="optCarry">
+          <span class="slider" aria-hidden="true"></span>
+        </label>
+      </div>
+
+      <div class="setting-row">
+        <div class="setting-text">
+          <div class="setting-title">이번 달까지만 이월</div>
+          <div class="setting-desc">끄면 아직 오지 않은 달에도 잔액이 계속 이월되어 보입니다</div>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="optCarryLimit">
+          <span class="slider" aria-hidden="true"></span>
+        </label>
+      </div>
+
+      <div class="setting-row">
+        <div class="setting-text">
+          <div class="setting-title">충동구매 속도 경고</div>
+          <div class="setting-desc">이번 달 급여·용돈의 일정 비율을 충동구매 한도로 잡고, 날짜가 지나는 속도보다 훨씬 빨리 쓰면 경고합니다</div>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="optImpulse">
+          <span class="slider" aria-hidden="true"></span>
+        </label>
+      </div>
+
+      <div class="setting-row">
+        <div class="setting-text">
+          <div class="setting-title">충동구매 한도 비율</div>
+          <div class="setting-desc">한 달 자유 예산(급여+용돈) 중 몇 %까지 충동구매로 허용할지 정합니다 (1~100)</div>
+        </div>
+        <div class="percent-input">
+          <input type="number" id="optImpulsePercent" min="1" max="100" step="1" inputmode="numeric">
+          <span>%</span>
+        </div>
+      </div>
+
+      <div class="setting-row">
+        <div class="setting-text">
+          <div class="setting-title">저축 목표 금액</div>
+          <div class="setting-desc">'저축' 분류로 입력한 금액을 모두 더해 목표까지 몇 % 모았는지 보여줍니다. 비우면 표시하지 않습니다</div>
+        </div>
+        <div class="percent-input goal-input">
+          <input type="text" id="optGoal" inputmode="numeric" placeholder="0">
+          <span>만원</span>
+        </div>
+      </div>
+
+      <button type="button" class="danger-btn" id="resetBtn">모든 내역 삭제</button>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" hidden></div>
 
   <script src="app.js"></script>
 </body>

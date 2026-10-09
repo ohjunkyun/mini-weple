@@ -39,12 +39,42 @@ button {
   padding-bottom: 96px;
 }
 
+/* 0. 상단 설정 */
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 10px 0 16px;
+  background: var(--card);
+}
+
+.app-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.icon-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--sub);
+}
+
+.icon-btn:hover {
+  background: var(--bg);
+  color: var(--text);
+}
+
 /* 1. 월 설정 */
 .month-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 18px 16px 12px;
+  padding: 4px 16px 12px;
   background: var(--card);
 }
 
@@ -98,6 +128,177 @@ button {
 
 .income { color: var(--income); }
 .expense { color: var(--expense); }
+
+/* 2-1. 충동구매 속도 경고 */
+.impulse {
+  --impulse-color: #2bb673;
+  background: var(--card);
+  margin-top: 8px;
+  padding: 14px 16px;
+  border-left: 4px solid var(--impulse-color);
+}
+
+.impulse[hidden] {
+  display: none;
+}
+
+.impulse.warn { --impulse-color: var(--accent); background: #fff8f3; }
+.impulse.over { --impulse-color: var(--expense); background: #fff5f5; }
+
+.impulse-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 8px;
+}
+
+.impulse-title {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.impulse-amount {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--sub);
+}
+
+.impulse-bar {
+  position: relative;
+  height: 10px;
+  background: var(--line);
+  border-radius: 5px;
+}
+
+.impulse-fill {
+  height: 100%;
+  width: 0;
+  max-width: 100%;
+  background: var(--impulse-color);
+  border-radius: 5px;
+  transition: width 0.3s ease;
+}
+
+/* 오늘까지 지나간 날짜 위치 */
+.impulse-marker {
+  position: absolute;
+  top: -4px;
+  bottom: -4px;
+  width: 2px;
+  background: var(--text);
+  border-radius: 1px;
+  transform: translateX(-1px);
+}
+
+.impulse-marker[hidden] {
+  display: none;
+}
+
+.impulse-msg {
+  margin-top: 8px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--sub);
+}
+
+.impulse.warn .impulse-msg,
+.impulse.over .impulse-msg {
+  color: var(--impulse-color);
+  font-weight: 600;
+}
+
+.impulse-tag {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* 2-2. 저축 목표 */
+.goal {
+  background: var(--card);
+  margin-top: 8px;
+  padding: 14px 16px;
+  border-left: 4px solid #e86a9a;
+}
+
+.goal[hidden] {
+  display: none;
+}
+
+.goal-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 8px;
+}
+
+.goal-title {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.goal-pct {
+  font-size: 18px;
+  font-weight: 800;
+  color: #e86a9a;
+}
+
+.goal-bar {
+  height: 10px;
+  background: var(--line);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.goal-fill {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, #f7a1c0, #e86a9a);
+  border-radius: 5px;
+  transition: width 0.3s ease;
+}
+
+.goal-msg {
+  margin-top: 8px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--sub);
+}
+
+.goal.done {
+  background: #fff6fa;
+}
+
+.goal.done .goal-msg {
+  color: #e86a9a;
+  font-weight: 600;
+}
+
+.goal-input input {
+  width: 80px;
+}
+
+/* 알림 */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 96px;
+  transform: translateX(-50%);
+  width: calc(100% - 32px);
+  max-width: 408px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: #2b2f36;
+  color: #fff;
+  font-size: 14px;
+  line-height: 1.45;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  z-index: 20;
+  animation: slideUp 0.2s ease-out;
+}
+
+.toast[hidden] {
+  display: none;
+}
 
 /* 3. 달력 */
 .calendar {
@@ -199,17 +400,53 @@ button {
   list-style: none;
 }
 
+.entry-wrap {
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid var(--line);
+}
+
+.entry-wrap:last-child {
+  border-bottom: none;
+}
+
 .entry {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 12px;
   padding: 12px 0;
-  border-bottom: 1px solid var(--line);
+  background: var(--card);
+  touch-action: pan-y;
+  user-select: none;
+  cursor: grab;
 }
 
-.entry:last-child {
-  border-bottom: none;
+.entry-actions {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
 }
+
+.action-btn {
+  width: 70px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.entry-wrap.carry .entry {
+  cursor: default;
+}
+
+.entry-wrap.carry .entry-icon {
+  background: #eaf1fe;
+}
+
+.action-btn.edit { background: #9aa1ab; }
+.action-btn.delete { background: var(--expense); }
 
 .entry-icon {
   width: 40px;
@@ -448,4 +685,133 @@ button {
 
 .save-btn.income {
   background: var(--income);
+}
+
+/* 설정 창 */
+.setting-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 6px 0 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+.setting-row.disabled {
+  opacity: 0.4;
+}
+
+.setting-text {
+  flex: 1;
+}
+
+.setting-title {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.setting-desc {
+  font-size: 12px;
+  color: var(--sub);
+  margin-top: 3px;
+  line-height: 1.4;
+}
+
+.switch {
+  position: relative;
+  width: 46px;
+  height: 28px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.switch input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  inset: 0;
+  background: #d5d9df;
+  border-radius: 14px;
+  transition: background 0.2s;
+}
+
+.slider::before {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 22px;
+  height: 22px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s;
+}
+
+.switch input:checked + .slider {
+  background: var(--accent);
+}
+
+.switch input:checked + .slider::before {
+  transform: translateX(18px);
+}
+
+.switch input:focus-visible + .slider {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.switch input:disabled + .slider {
+  cursor: not-allowed;
+}
+
+.percent-input {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--sub);
+}
+
+.percent-input input {
+  width: 60px;
+  padding: 7px 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  text-align: right;
+  color: var(--text);
+  background: var(--bg);
+  outline: none;
+}
+
+.percent-input input:focus {
+  border-color: var(--accent);
+  background: var(--card);
+}
+
+.percent-input input:disabled {
+  opacity: 0.5;
+}
+
+.danger-btn {
+  margin-top: 6px;
+  padding: 13px 0;
+  border-radius: 12px;
+  border: 1px solid #f6c9c9;
+  color: var(--expense);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.danger-btn:hover {
+  background: #fff5f5;
 }
